@@ -17,6 +17,8 @@ add_filter(
 		array(
 			'ga_id'           => 'G-RQW37Q146K', // z MonsterInsights
 			'copyright_since' => 2021,
+			'credit_name'     => 'ElvisEK',
+			'credit_url'      => 'https://www.elvisek.cz',
 			'meta_desc'       => 'Úklidové služby Luxury Clean: úklid domácností, firem a kanceláří, čištění koberců, sedaček a vozidel, ozonová dezinfekce a výzdoby. Rohatec a okolí.',
 		)
 	)
@@ -64,7 +66,7 @@ add_filter(
 	)
 );
 
-// Patička jako na starém webu: „Copyright © 2021–2026 Luxury Clean · All rights reserved“.
+// Patička: volitelný text za copyrightem (Přizpůsobit → Patička), např. „All rights reserved“.
 add_filter(
 	'ekt_site_info_parts',
 	static function ( array $parts ): array {
@@ -100,7 +102,7 @@ foreach (
 		'site_cta_text'   => array( 'text', 'Výzva dole: text', 'Pro pravidelný úklid domácností, firem a kanceláří ceny dohodou.', '' ),
 		'site_prices'     => array( 'textarea', 'Úvod: vybrané ceny', "Sedačky a nábytek\nSedací souprava čalouněná = 190 Kč/bm\nSedací souprava kožená = 250 Kč/bm\nKřeslo = 250 Kč\nKancelářská židle = 150 Kč\n\nKoberce\nKusový nízký vlas = 90 Kč/m²\nKusový vysoký vlas = 100 Kč/m²\nCeloplošný nízký vlas = 40 Kč/m²\nCeloplošný vysoký vlas = 45 Kč/m²\n\nOzonové čištění\nByt do 50 m² = 500 Kč\nByt do 80 m² = 800 Kč\nByt nad 80 m² = od 1 000 Kč\nVozidlo = 300 Kč", 'Bloky oddělené prázdným řádkem: první řádek nadpis, další „položka = cena“. Prázdné = sekce se nezobrazí.' ),
 		'site_prices_note' => array( 'text', 'Úvod: poznámka pod cenami', 'Minimální objem zakázky 600 Kč. Doprava do 5 km zdarma, nad 5 km 12 Kč/km.', '' ),
-		'site_rights'     => array( 'text', 'Patička: text za copyrightem', 'All rights reserved', 'Prázdné = nic.' ),
+		'site_rights'     => array( 'text', 'Patička: text za copyrightem', '', 'Např. All rights reserved. Prázdné = nic.' ),
 	) as $lc_key => $lc_field
 ) {
 	ekt_setting_register(

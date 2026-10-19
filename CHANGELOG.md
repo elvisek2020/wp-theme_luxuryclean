@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.2.1 — 2026-10-19
+
+### Šablona
+- **Patička**: podpis „Design & code by ElvisEK“ s odkazem na www.elvisek.cz (Přizpůsobit → Patička).
+- **Patička** bez „All rights reserved“; text za copyrightem jde v případě potřeby doplnit v Přizpůsobit → Patička.
+
+### Luxury Clean Core
+- Beze změny, jen číslo verze.
+
 ## v0.2.0 — 2026-10-19
 
 ### Šablona
