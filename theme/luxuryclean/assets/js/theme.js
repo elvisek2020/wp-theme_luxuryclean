@@ -31,3 +31,31 @@
 		if (!nav.contains(e.target)) nav.querySelectorAll('.menu-item-has-children.is-open').forEach((x) => { x.classList.remove('is-open'); x.firstElementChild.setAttribute('aria-expanded', 'false'); });
 	});
 })();
+
+/* Ceník: sloupce „nadpis | položky | ceny“ (dva seznamy se stejným počtem řádků) se srovnají
+   řádek po řádku – na mobilu se tak nevypíšou nejdřív všechny položky a pak všechny ceny. */
+(() => {
+	const rows = [];
+	document.querySelectorAll('[data-ekt-content] .wp-block-columns').forEach((block) => {
+		const cols = [...block.children].filter((c) => c.classList.contains('wp-block-column'));
+		if (cols.length !== 3) return;
+		// Položky ze všech seznamů ve sloupci (ceny bývají rozdělené do víc seznamů).
+		const [a, b] = cols.slice(1).map((c) => [...c.querySelectorAll(':scope > ul > li')]);
+		if (!a.length || a.length !== b.length || !cols[2].querySelector('code')) return;
+		block.classList.add('lc-pricelist');
+		if (!cols[0].textContent.trim()) cols[0].classList.add('lc-pricelist__empty');
+		a.forEach((li, i) => rows.push([li, b[i]]));
+	});
+	if (!rows.length) return;
+	const sync = () => {
+		rows.forEach(([x, y]) => { x.style.minHeight = y.style.minHeight = ''; });
+		rows.forEach(([x, y]) => {
+			const h = Math.max(x.offsetHeight, y.offsetHeight);
+			x.style.minHeight = y.style.minHeight = h + 'px';
+		});
+	};
+	sync();
+	let t;
+	window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(sync, 100); });
+	if (document.fonts) document.fonts.ready.then(sync);
+})();

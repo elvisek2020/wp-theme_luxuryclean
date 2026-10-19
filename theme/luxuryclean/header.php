@@ -33,7 +33,7 @@ $lc_contact = get_page_by_path( 'kontakt' );
 			<?php endif; ?>
 		</div>
 		<?php if ( $lc_address ) : ?>
-			<span class="lc-top__address"><?php echo ekt_icon( 'pin', 14 ); // phpcs:ignore WordPress.Security.EscapeOutput ?><?php echo esc_html( $lc_address ); ?></span>
+			<a class="lc-top__address" href="<?php echo esc_url( lc_map_url() ); ?>" target="_blank" rel="noopener" title="Zobrazit na mapě"><?php echo ekt_icon( 'pin', 14 ); // phpcs:ignore WordPress.Security.EscapeOutput ?><?php echo esc_html( $lc_address ); ?></a>
 		<?php endif; ?>
 	</div>
 </div>

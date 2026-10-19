@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.2.2 — 2026-10-19
+
+### Šablona
+- **Adresa v horní liště a v patičce** vede na Mapy.cz (otevře se v novém okně). Vlastní odkaz na mapu jde nastavit v Přizpůsobit → Kontakty a úvod.
+- **Ceník na mobilu**: položky a ceny jsou vedle sebe a zarovnané řádek po řádku (dřív se vypsaly nejdřív všechny položky a pak všechny ceny). Ceny jsou výraznější a bez strojového písma.
+- **Popisy pro vyhledávače** se už neslepují (odrážky a řádky oddělené mezerou), např. u stránek služeb a Kontaktu.
+- Text s natvrdo černou barvou z původní šablony je v tmavém režimu čitelný.
+
+### Luxury Clean Core
+- Beze změny, jen číslo verze.
+
 ## v0.2.1 — 2026-10-19
 
 ### Šablona

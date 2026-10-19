@@ -20,7 +20,7 @@ $lc_address = (string) ekt_opt( 'site_address' );
 				</a>
 				<p>
 					<?php if ( $lc_address ) : ?>
-						<?php echo esc_html( $lc_address ); ?><br>
+						<a href="<?php echo esc_url( lc_map_url() ); ?>" target="_blank" rel="noopener" title="Zobrazit na mapě"><?php echo esc_html( $lc_address ); ?></a><br>
 					<?php endif; ?>
 					<?php if ( $lc_phone ) : ?>
 						<a href="<?php echo esc_url( lc_phone_href() ); ?>"><?php echo esc_html( $lc_phone ); ?></a>

@@ -95,6 +95,7 @@ foreach (
 		'site_phone'      => array( 'text', 'Telefon', '721 656 521', '' ),
 		'site_email'      => array( 'email', 'E-mail', 'info@luxuryclean.cz', '' ),
 		'site_address'    => array( 'text', 'Adresa', 'Budovatelská 1229/69, Rohatec', '' ),
+		'site_map_url'    => array( 'url', 'Adresa: odkaz na mapu', '', 'Prázdné = hledání adresy na Mapy.cz.' ),
 		'site_hero_kicker' => array( 'text', 'Úvod: nadtitulek', 'Úklidové služby · Rohatec a okolí', '' ),
 		'site_hero_title' => array( 'text', 'Úvod: nadpis', 'Vyčistíme cokoliv', 'Prázdné = popis webu (Nastavení → Obecné).' ),
 		'site_hero_text'  => array( 'textarea', 'Úvod: text', 'Úklid domácností, firem a kanceláří, čištění koberců, sedaček a vozidel, ozonová dezinfekce i výzdoby na klíč.', '' ),
@@ -129,6 +130,20 @@ function lc_phone_href(): string {
 		return '';
 	}
 	return 'tel:' . ( str_starts_with( $digits, '+' ) ? $digits : '+420' . $digits );
+}
+
+/**
+ * Odkaz adresy na mapu: vlastní z Přizpůsobit, jinak hledání na Mapy.cz.
+ *
+ * @return string
+ */
+function lc_map_url(): string {
+	$url = trim( (string) ekt_opt( 'site_map_url' ) );
+	if ( '' !== $url ) {
+		return $url;
+	}
+	$address = trim( (string) ekt_opt( 'site_address' ) );
+	return '' !== $address ? 'https://mapy.cz/?q=' . rawurlencode( $address ) : '';
 }
 
 /**

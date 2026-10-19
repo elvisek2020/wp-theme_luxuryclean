@@ -261,6 +261,24 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--c
 /* Barvy uložené v obsahu ze staré šablony (žluté zvýraznění v ceníku) ztlumit do zlaté. */
 .entry__content .has-luminous-vivid-amber-background-color { background: var(--color-gold) !important; color: var(--color-on-gold) !important; }
 
+/* Ceník: tři sloupce nadpis | položky | ceny, srovnané řádek po řádku (theme.js přidá .lc-pricelist). */
+.entry__content .lc-pricelist { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) auto; gap: 0 24px; margin-block: 0; padding-block: 14px; border-bottom: 1px solid var(--color-border); }
+.entry__content .lc-pricelist > .wp-block-column { margin: 0; }
+.entry__content .lc-pricelist > .wp-block-column > p { margin: 0 0 8px; font-weight: 600; color: var(--color-heading); }
+.entry__content .lc-pricelist ul { margin: 0 !important; padding: 0; list-style: none; }
+.entry__content .lc-pricelist li { margin: 0; padding: 5px 0; box-sizing: border-box; }
+.entry__content .lc-pricelist li > br:last-child { display: none; }
+.entry__content .lc-pricelist p:empty { display: none; }
+.entry__content .lc-pricelist > .wp-block-column:last-child li { text-align: right; white-space: nowrap; }
+.entry__content .lc-pricelist code, .entry__content .lc-pricelist mark { font: inherit; font-weight: 600; color: var(--color-heading) !important; background: none !important; padding: 0; }
+@media (max-width: 781px) {
+	.entry__content .lc-pricelist { grid-template-columns: minmax(0, 1fr) auto; gap: 0 16px; }
+	.entry__content .lc-pricelist > .wp-block-column:first-child { grid-column: 1 / -1; }
+	.entry__content .lc-pricelist > .lc-pricelist__empty { display: none; }
+}
+/* Barva textu natvrdo černá ze staré šablony by v tmavém režimu zmizela. */
+.entry__content .has-black-color { color: inherit !important; }
+
 /* Kontaktní formulář (modul contact-form pluginu). */
 .ekc-form { margin-block: 8px 1.5em; }
 .ekc-form__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 20px; }
