@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.2.0 — 2026-10-19
+
+### Šablona
+- **Kontaktní formulář** ve vzhledu šablony (světlý i tmavý režim), styly Forminatoru odebrané.
+
+### Luxury Clean Core
+- **Kontaktní formulář** místo Forminatoru: jméno, e-mail, telefon a zpráva, antispam bez reCAPTCHA (skryté pole, časové razítko, limit 5 zpráv za hodinu z jedné IP), e-mail na info@luxuryclean.cz s odpovědí rovnou odesílateli. Kopie odesílateli se už neposílá.
+- **Zprávy z webu** v administraci: všechny zprávy na jednom místě, nepřečtené s počtem u menu a ve widgetu Zdraví webu, upozornění, když se e-mail nepodařilo odeslat.
+- **Převod 82 zpráv z Forminatoru** proběhne sám po aktualizaci, převezme i příjemce. Stránky Kontakt a Objednávka se nemusí upravovat, formulář převezme jejich vložený Forminator.
+- Údržba webu: pozůstatky Forminatoru se nabídnou až po převodu všech zpráv.
+
 ## v0.1.0 — 2026-10-19
 
 ### Šablona

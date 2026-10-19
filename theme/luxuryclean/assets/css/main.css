@@ -261,18 +261,32 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--c
 /* Barvy uložené v obsahu ze staré šablony (žluté zvýraznění v ceníku) ztlumit do zlaté. */
 .entry__content .has-luminous-vivid-amber-background-color { background: var(--color-gold) !important; color: var(--color-on-gold) !important; }
 
-/* Formuláře Forminator: písmo a barvy šablony, i v tmavém režimu. */
-.forminator-ui.forminator-custom-form { font-family: var(--font-body) !important; }
-.forminator-ui input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
-.forminator-ui textarea, .forminator-ui select {
-	background: var(--color-surface) !important; color: var(--color-fg) !important;
-	border: 1px solid var(--color-border) !important; border-radius: var(--radius-sm) !important;
+/* Kontaktní formulář (modul contact-form pluginu). */
+.ekc-form { margin-block: 8px 1.5em; }
+.ekc-form__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 20px; }
+.ekc-form__field { margin: 0 0 18px; }
+.ekc-form__label { display: block; margin-bottom: 6px; color: var(--color-heading); font-weight: 500; font-size: .9375rem; }
+.ekc-form__req { color: var(--color-accent); }
+.ekc-form__input {
+	display: block; width: 100%; padding: 12px 14px; font: inherit; color: var(--color-fg);
+	background: var(--color-surface); border: 1px solid var(--color-silver); border-radius: var(--radius-sm);
+	transition: border-color .15s, box-shadow .15s;
 }
-.forminator-ui label, .forminator-ui .forminator-label { color: var(--color-heading) !important; font-family: var(--font-body) !important; }
-.forminator-ui .forminator-button-submit {
-	background: var(--color-gold) !important; color: var(--color-on-gold) !important; border-radius: 999px !important;
-	font: 600 .9375rem/1.2 var(--font-body) !important; padding: 12px 26px !important;
+textarea.ekc-form__input { resize: vertical; min-height: 160px; }
+.ekc-form__input:focus { outline: none; border-color: var(--color-gold); box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold) 25%, transparent); }
+.ekc-form__input[aria-invalid="true"] { border-color: #c0392b; }
+.ekc-form__error { display: block; margin-top: 6px; color: #c0392b; font-size: .875rem; }
+.ekc-form__consent { margin: 0 0 18px; color: var(--color-muted); font-size: .875rem; }
+.ekc-form__actions { margin: 0; }
+.ekc-form__submit {
+	display: inline-flex; align-items: center; padding: 13px 28px; border: 2px solid var(--color-gold); border-radius: 999px;
+	background: var(--color-gold); color: var(--color-on-gold); font: 600 1rem/1.2 var(--font-body); cursor: pointer;
 }
+.ekc-form__submit:hover { background: transparent; color: var(--color-heading); }
+.ekc-form__notice { margin: 0 0 20px; padding: 16px 20px; border-radius: var(--radius-sm); border: 1px solid; font-weight: 500; }
+.ekc-form__notice--ok { border-color: var(--color-gold); background: color-mix(in srgb, var(--color-gold) 12%, var(--color-surface)); color: var(--color-heading); }
+.ekc-form__notice--error { border-color: #c0392b; background: color-mix(in srgb, #c0392b 10%, var(--color-surface)); color: var(--color-heading); }
+@media (max-width: 760px) { .ekc-form__grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- 404 ---------- */
 .lc-404 { padding-block: 48px 72px; }
