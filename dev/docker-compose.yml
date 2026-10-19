@@ -1,0 +1,40 @@
+# Lokální kopie www.luxuryclean.cz — http://localhost:8412
+# Plugin a šablona jsou připojené z repa (žádné kopírování). Postup: dev/README.md.
+name: luxuryclean
+
+x-wp-volumes: &wp-volumes
+  - ./wp:/var/www/html
+  - ../plugins/luxuryclean-core:/var/www/html/wp-content/plugins/luxuryclean-core
+  - ../theme/luxuryclean:/var/www/html/wp-content/themes/luxuryclean
+
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: wordpress
+    volumes:
+      - ./db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      retries: 20
+
+  wordpress:
+    # = PHP na produkci; po zvednutí PHP na hostingu přepnout i tady
+    image: wordpress:php8.5-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8412:80"
+    volumes: *wp-volumes
+
+  cli:
+    image: wordpress:cli-php8.5
+    user: "33:33"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes: *wp-volumes
+    profiles: ["cli"]

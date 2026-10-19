@@ -1,0 +1,345 @@
+/*
+ * Vzhled šablony Luxury Clean — světlý režim „Svěží“ (bílá, černá, zlatá, stříbrná, tmavě modrá),
+ * tmavý režim „Noc a zlato“. Kanonické moduly (inc/ekt/) dodávají jen funkční CSS v assets/ekt/css/
+ * a barvy, písmo a zaoblení berou z proměnných --ekt-*; ty jsou tady namapované na tokeny šablony.
+ * Tmavé tokeny jsou dvakrát: ruční volba [data-theme="dark"] a systémová s :not([data-theme="light"]).
+ */
+
+/* ---------- Tokeny ---------- */
+:root {
+	--color-bg: #ffffff;
+	--color-surface: #ffffff;
+	--color-soft: #f2f3f5;
+	--color-fg: #2f333a;
+	--color-heading: #0d0d0f;
+	--color-muted: #6f7680;
+	--color-border: #dcdfe4;
+	--color-silver: #c4c8ce;
+	--color-accent: #a8831f;
+	--color-gold: #c9a23a;
+	--color-on-gold: #0d0d0f;
+	--color-navy: #16203a;
+	--color-band: #16203a;
+	--color-band-fg: #dfe3ec;
+	--color-band-line: rgba(255, 255, 255, .12);
+	--hero-bg: linear-gradient(135deg, #ffffff 0%, #f1f2f4 55%, #e6e8eb 100%);
+	--section-alt: linear-gradient(180deg, #f4f5f7, #eceef1);
+	--card-image-bg: #ffffff;
+	--shadow: 0 30px 60px -30px rgba(13, 13, 15, .25);
+	--lc-logo-text: #0d0d0f;
+
+	--radius: 18px;
+	--radius-sm: 10px;
+	--font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--font-head: "Poppins", "Inter", system-ui, sans-serif;
+	--wrap: 1200px;
+	--wrap-content: 860px;
+	--gutter: 16px;
+
+	/* Most pro kanonické moduly. */
+	--ekt-bg: var(--color-bg);
+	--ekt-fg: var(--color-fg);
+	--ekt-muted: var(--color-muted);
+	--ekt-border: var(--color-border);
+	--ekt-accent: var(--color-accent);
+	--ekt-radius: var(--radius-sm);
+
+	color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+	--color-bg: #0e0f12;
+	--color-surface: #17191e;
+	--color-soft: #121317;
+	--color-fg: #c9c6bd;
+	--color-heading: #f5efe0;
+	--color-muted: #8d897f;
+	--color-border: #2a2c32;
+	--color-silver: #4a4d55;
+	--color-accent: #d4af4f;
+	--color-gold: #d4af4f;
+	--color-on-gold: #0e0f12;
+	--color-band: #08090b;
+	--color-band-fg: #c9c6bd;
+	--color-band-line: rgba(255, 255, 255, .08);
+	--hero-bg: radial-gradient(ellipse at 75% 10%, #2a2414 0%, #0e0f12 60%);
+	--section-alt: #121317;
+	--card-image-bg: #f1efe9;
+	--shadow: 0 30px 60px -30px rgba(0, 0, 0, .7);
+	--lc-logo-text: #f5efe0;
+	color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--color-bg: #0e0f12;
+		--color-surface: #17191e;
+		--color-soft: #121317;
+		--color-fg: #c9c6bd;
+		--color-heading: #f5efe0;
+		--color-muted: #8d897f;
+		--color-border: #2a2c32;
+		--color-silver: #4a4d55;
+		--color-accent: #d4af4f;
+		--color-gold: #d4af4f;
+		--color-on-gold: #0e0f12;
+		--color-band: #08090b;
+		--color-band-fg: #c9c6bd;
+		--color-band-line: rgba(255, 255, 255, .08);
+		--hero-bg: radial-gradient(ellipse at 75% 10%, #2a2414 0%, #0e0f12 60%);
+		--section-alt: #121317;
+		--card-image-bg: #f1efe9;
+		--shadow: 0 30px 60px -30px rgba(0, 0, 0, .7);
+		--lc-logo-text: #f5efe0;
+		color-scheme: dark;
+	}
+}
+
+/* ---------- Základ ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 96px; }
+body {
+	margin: 0;
+	background: var(--color-bg);
+	color: var(--color-fg);
+	font: 1rem/1.65 var(--font-body);
+	-webkit-font-smoothing: antialiased;
+	overflow-wrap: break-word;
+}
+img, video, iframe { max-width: 100%; height: auto; }
+a { color: var(--color-accent); text-underline-offset: .18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--color-heading); line-height: 1.2; margin: 0 0 .5em; }
+
+.wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
+.wrap--content { width: min(100% - 2 * var(--gutter), var(--wrap-content)); }
+.screen-reader-text { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus { left: var(--gutter); top: var(--gutter); z-index: 100; background: var(--color-bg); padding: 8px 12px; }
+.kicker { margin: 0 0 12px; font: 600 .8125rem/1.2 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--color-accent); }
+
+/* ---------- Tlačítka ---------- */
+.btn,
+.wp-block-button__link {
+	display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+	padding: 12px 22px; border: 2px solid var(--color-gold); border-radius: 999px;
+	background: var(--color-gold); color: var(--color-on-gold);
+	font: 600 .9375rem/1.2 var(--font-body); text-decoration: none; cursor: pointer;
+	transition: background-color .2s, border-color .2s, color .2s;
+}
+.btn:hover, .wp-block-button__link:hover { background: transparent; color: var(--color-heading); text-decoration: none; }
+.btn--ghost { background: transparent; color: var(--color-heading); border-color: var(--color-silver); }
+.btn--ghost:hover { border-color: var(--color-gold); }
+
+/* ---------- Horní lišta ---------- */
+.lc-top { background: var(--color-band); color: var(--color-band-fg); font-size: .875rem; }
+.lc-top__inner { display: flex; justify-content: space-between; gap: 8px 24px; padding-block: 8px; flex-wrap: wrap; }
+.lc-top__contacts { display: flex; gap: 8px 24px; flex-wrap: wrap; }
+.lc-top a, .lc-top__address { display: inline-flex; align-items: center; gap: 6px; color: inherit; text-decoration: none; }
+.lc-top a:hover { color: var(--color-gold); }
+.lc-top .ekt-icon { color: var(--color-gold); }
+
+/* ---------- Hlavička a menu ---------- */
+.site-header { position: sticky; top: 0; z-index: 40; background: var(--color-bg); border-bottom: 1px solid var(--color-border); }
+.admin-bar .site-header { top: 32px; }
+.site-header__inner { display: flex; align-items: center; gap: 16px 24px; padding-block: 14px; }
+.site-logo { display: block; flex: none; line-height: 0; }
+.lc-logo { display: block; height: 58px; width: auto; }
+.site-nav { margin-left: auto; }
+.site-nav__list, .site-nav .sub-menu { margin: 0; padding: 0; list-style: none; }
+.site-nav__list { display: flex; gap: 4px; }
+.site-nav__list > li { position: relative; }
+.site-nav a { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: var(--radius-sm); color: var(--color-heading); font-weight: 500; font-size: .9375rem; text-decoration: none; }
+.site-nav a:hover, .site-nav .current-menu-item > a, .site-nav .current-menu-ancestor > a { color: var(--color-accent); }
+.site-nav .menu-item-has-children > a::after { content: ""; width: 7px; height: 7px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); }
+.site-nav .sub-menu {
+	position: absolute; top: 100%; left: 0; min-width: 300px; padding: 8px;
+	background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+	box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translateY(6px); transition: .15s;
+}
+.site-nav .sub-menu a { padding: 9px 12px; font-weight: 400; }
+.site-nav .sub-menu a:hover { background: var(--color-soft); }
+.site-nav li:hover > .sub-menu, .site-nav li:focus-within > .sub-menu, .site-nav li.is-open > .sub-menu { opacity: 1; visibility: visible; transform: none; }
+.site-nav__toggle { display: none; margin-left: auto; padding: 8px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: transparent; color: var(--color-heading); cursor: pointer; line-height: 0; }
+.site-header__cta { flex: none; }
+
+@media (max-width: 960px) {
+	.lc-logo { height: 46px; }
+	.site-nav__toggle { display: block; }
+	.site-header__cta { display: none; }
+	.site-nav { position: absolute; left: 0; right: 0; top: 100%; margin: 0; background: var(--color-bg); border-bottom: 1px solid var(--color-border); box-shadow: var(--shadow); display: none; max-height: calc(100vh - 80px); overflow-y: auto; }
+	.lc-nav-open .site-nav { display: block; }
+	.site-nav__list { flex-direction: column; padding: 8px var(--gutter) 16px; }
+	.site-nav a { padding: 12px 8px; font-size: 1rem; }
+	.site-nav .menu-item-has-children > a { justify-content: space-between; }
+	.site-nav .sub-menu { position: static; display: none; min-width: 0; padding: 0 0 8px 12px; border: 0; box-shadow: none; background: none; opacity: 1; visibility: visible; transform: none; }
+	.site-nav li.is-open > .sub-menu { display: block; }
+	.site-nav li:hover > .sub-menu { display: none; }
+	.site-nav li.is-open:hover > .sub-menu { display: block; }
+}
+@media (max-width: 782px) { .admin-bar .site-header { top: 0; } }
+
+/* ---------- Úvod ---------- */
+.lc-hero { background: var(--hero-bg); }
+.lc-hero__inner { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-block: 72px; }
+.lc-hero__title { font-size: clamp(2.25rem, 5.5vw, 4rem); line-height: 1.08; margin-bottom: .35em; }
+.lc-hero__lead { font-size: 1.125rem; max-width: 52ch; margin: 0; }
+.lc-hero__actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0 0; }
+.lc-hero__brand {
+	padding: 52px 44px; border-radius: 28px; background: var(--color-surface); border: 1px solid var(--color-silver);
+	box-shadow: var(--shadow), inset 0 0 0 6px var(--color-surface), inset 0 0 0 7px var(--color-border);
+}
+.lc-logo--hero { height: auto; width: 100%; }
+
+/* ---------- Sekce, karty služeb ---------- */
+.lc-section { padding-block: 80px; }
+.lc-section--alt { background: var(--section-alt); border-block: 1px solid var(--color-border); }
+.lc-section__head { display: flex; justify-content: space-between; align-items: end; gap: 16px 24px; flex-wrap: wrap; margin-bottom: 36px; }
+.lc-section__title { font-size: clamp(1.75rem, 3.5vw, 2.625rem); margin: 0; }
+
+.lc-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.lc-card {
+	display: flex; flex-direction: column; overflow: hidden; text-decoration: none; color: var(--color-fg);
+	background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius);
+	transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.lc-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--color-gold); }
+.lc-card__image { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: var(--card-image-bg); border-bottom: 1px solid var(--color-border); }
+.lc-card__image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.lc-card__body { display: flex; flex-direction: column; flex: 1; padding: 20px 22px 24px; }
+.lc-card__title { font: 600 1.25rem/1.3 var(--font-head); color: var(--color-heading); margin-bottom: 8px; }
+.lc-card__text { font-size: .9375rem; margin-bottom: 14px; }
+.lc-card__more { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--color-accent); font-weight: 600; font-size: .875rem; }
+
+/* ---------- Vybrané ceny ---------- */
+.lc-prices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.lc-price { padding: 24px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); }
+.lc-price__title { font-size: 1.25rem; }
+.lc-price__list { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; margin: 0; font-size: .9375rem; }
+.lc-price__list dd { margin: 0; font-weight: 600; color: var(--color-heading); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.lc-prices__note { margin: 20px 0 0; font-size: .875rem; color: var(--color-muted); }
+
+/* ---------- Výzva ---------- */
+.lc-cta { padding-block: 0 80px; }
+.lc-section + .lc-cta, .lc-section--alt + .lc-cta { padding-top: 80px; }
+.entry + .lc-cta { padding-top: 24px; }
+.lc-cta__box { display: flex; gap: 24px 32px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 48px; border-radius: var(--radius); background: var(--color-band); color: var(--color-band-fg); }
+:root[data-theme="dark"] .lc-cta__box { border: 1px solid #3a321c; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .lc-cta__box { border: 1px solid #3a321c; } }
+.lc-cta__title { color: #fff; margin: 0 0 6px; font-size: clamp(1.375rem, 2.6vw, 1.75rem); }
+.lc-cta__text { margin: 0; }
+.lc-cta__actions { display: flex; gap: 16px 20px; align-items: center; flex-wrap: wrap; }
+.lc-cta__tel { font: 600 1.75rem/1 var(--font-head); color: var(--color-gold); text-decoration: none; white-space: nowrap; }
+.lc-cta .btn:hover { color: #fff; }
+
+/* ---------- Stránka ---------- */
+.page-hero { background: var(--hero-bg); border-bottom: 1px solid var(--color-border); }
+.page-hero .wrap { padding-block: 56px 48px; }
+.page-hero__title { margin: 0; font-size: clamp(2rem, 4.5vw, 3rem); }
+.page-hero__title::after { content: ""; display: block; width: 64px; height: 3px; margin-top: 18px; border-radius: 3px; background: var(--color-gold); }
+.entry > .wrap--content { padding-block: 48px 56px; }
+
+.entry__content > * { margin-block: 0 1.1em; }
+.entry__content h2 { font-size: 1.625rem; margin-top: 1.6em; }
+.entry__content h3 { font-size: 1.25rem; margin-top: 1.4em; }
+.entry__content ul, .entry__content ol { padding-left: 1.3em; }
+.entry__content li { margin-bottom: .3em; }
+.entry__content li::marker { color: var(--color-gold); }
+.entry__content img { border-radius: var(--radius-sm); }
+.entry__content .wp-block-columns { gap: 24px; }
+.entry__content .wp-block-table { overflow-x: auto; }
+.entry__content table { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+.entry__content td, .entry__content th { padding: 12px 14px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+.entry__content .is-style-stripes { border: 0; }
+.entry__content .is-style-stripes tbody tr:nth-child(odd) { background: var(--color-soft); }
+.entry__content .is-style-stripes td { border-color: transparent; }
+.entry__content mark, .entry__content .has-background { border-radius: var(--radius-sm); }
+.entry__content .has-background:not(mark):not(hr) { padding: 16px 20px; }
+.entry__content hr, .entry__content .wp-block-separator { height: 0; padding: 0; border: 0; border-top: 1px solid var(--color-border); background: none !important; opacity: 1; margin-block: 2em; }
+.entry__content blockquote { margin-inline: 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--color-gold); }
+/* Barvy uložené v obsahu ze staré šablony (žluté zvýraznění v ceníku) ztlumit do zlaté. */
+.entry__content .has-luminous-vivid-amber-background-color { background: var(--color-gold) !important; color: var(--color-on-gold) !important; }
+
+/* Formuláře Forminator: písmo a barvy šablony, i v tmavém režimu. */
+.forminator-ui.forminator-custom-form { font-family: var(--font-body) !important; }
+.forminator-ui input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
+.forminator-ui textarea, .forminator-ui select {
+	background: var(--color-surface) !important; color: var(--color-fg) !important;
+	border: 1px solid var(--color-border) !important; border-radius: var(--radius-sm) !important;
+}
+.forminator-ui label, .forminator-ui .forminator-label { color: var(--color-heading) !important; font-family: var(--font-body) !important; }
+.forminator-ui .forminator-button-submit {
+	background: var(--color-gold) !important; color: var(--color-on-gold) !important; border-radius: 999px !important;
+	font: 600 .9375rem/1.2 var(--font-body) !important; padding: 12px 26px !important;
+}
+
+/* ---------- 404 ---------- */
+.lc-404 { padding-block: 48px 72px; }
+.lc-404__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- Patička ---------- */
+.site-footer { background: var(--color-band); color: var(--color-band-fg); padding-block: 56px 28px; font-size: .9375rem; --lc-logo-text: #ffffff; }
+.site-footer a { color: inherit; text-decoration: none; }
+.site-footer a:hover { color: var(--color-gold); }
+.site-footer__cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; }
+.lc-logo--footer { height: 46px; margin-bottom: 14px; }
+.site-footer__brand p { margin: 0 0 14px; }
+.site-footer__title { margin: 0 0 14px; color: #fff; font: 600 .8125rem/1 var(--font-body); letter-spacing: .12em; text-transform: uppercase; }
+.site-footer__menu { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.site-footer__social { display: flex; gap: 8px; }
+.site-footer__social .ekt-social__link { display: inline-flex; padding: 8px; border: 1px solid var(--color-band-line); border-radius: 50%; }
+.site-footer__social .ekt-social__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.site-footer__bottom { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--color-band-line); }
+.site-info { margin: 0; opacity: .75; font-size: .875rem; }
+.site-info span { white-space: nowrap; }
+.site-info .ekt-consent-link { padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.site-info .ekt-consent-link:hover { color: var(--color-gold); }
+
+/* Přepínač Systém / Světlý / Tmavý (modul color-scheme) */
+.ekt-scheme { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--color-band-line); border-radius: 999px; background: rgba(255, 255, 255, .04); }
+.ekt-scheme__btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 0; border-radius: 999px; background: transparent; color: var(--color-band-fg); font: 500 .8125rem/1 var(--font-body); cursor: pointer; opacity: .75; }
+.ekt-scheme__btn:hover { opacity: 1; }
+.ekt-scheme__btn[aria-pressed="true"] { background: var(--color-gold); color: #0d0d0f; opacity: 1; }
+.ekt-scheme__btn .ekt-icon { width: 15px; height: 15px; }
+
+/* ---------- Cookie lišta (modul analytics) ---------- */
+.ekt-consent {
+	position: fixed; z-index: 60; left: var(--gutter); right: var(--gutter); bottom: var(--gutter);
+	max-width: 760px; margin-inline: auto; display: flex; gap: 12px 20px; align-items: center; flex-wrap: wrap;
+	padding: 16px 20px; background: var(--color-surface); color: var(--color-fg);
+	border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow); font-size: .875rem;
+}
+.ekt-consent__text { margin: 0; flex: 1 1 320px; }
+.ekt-consent__actions { display: flex; gap: 8px; }
+.ekt-consent__btn { padding: 9px 16px; border: 2px solid var(--color-silver); border-radius: 999px; background: transparent; color: var(--color-heading); font: 600 .875rem/1.2 var(--font-body); cursor: pointer; }
+.ekt-consent__btn--accept { background: var(--color-gold); border-color: var(--color-gold); color: var(--color-on-gold); }
+
+/* ---------- Výpis (záloha index.php) ---------- */
+.site-main > .wrap > .page-header { padding-block: 40px 8px; }
+.post-list { display: grid; gap: 32px; padding-block: 24px 56px; }
+.card__title { margin: 8px 0 4px; font-size: 1.375rem; }
+.card__title a { color: inherit; text-decoration: none; }
+.card__meta { margin: 0; color: var(--color-muted); font-size: .9375rem; }
+.empty { color: var(--color-muted); }
+
+/* ---------- Responzivita ---------- */
+@media (max-width: 960px) {
+	.lc-hero__inner { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-block: 40px 56px; }
+	.lc-hero__brand { order: -1; padding: 28px 24px; }
+	.lc-cards, .lc-prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.site-footer__cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+	.site-footer__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+	.lc-top__address { display: none; }
+	.lc-cards, .lc-prices { grid-template-columns: minmax(0, 1fr); }
+	.lc-section { padding-block: 56px; }
+	.lc-cta__box { padding: 28px 24px; }
+	.ekt-scheme__label { display: none; }
+	.ekt-scheme__btn { padding: 8px 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { transition: none !important; }
+}

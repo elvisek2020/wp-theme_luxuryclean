@@ -1,0 +1,15 @@
+/*
+Theme Name: Luxury Clean
+Author: ElvisEK
+Description: Vlastní lehká šablona webu Luxury Clean — hybrid (PHP šablony + theme.json), světlý i tmavý režim, bez jQuery a bez externích služeb.
+Version: 0.1.0
+Requires at least: 6.5
+Tested up to: 7.1
+Requires PHP: 8.1
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Update URI: https://github.com/elvisek2020/wp-theme_luxuryclean
+Text Domain: luxuryclean
+*/
+
+/* Styly jsou v assets/css/main.css (načítá inc/setup.php). */
