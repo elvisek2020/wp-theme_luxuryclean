@@ -303,3 +303,225 @@ function lc_footer_links( string $location ): array {
 		)
 	);
 }
+
+/* -------------------------------------------------------------------------
+ * Ceník jako karty (stejné jako Vybrané ceny na titulce)
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Sloupce „nadpis | seznam položek | seznam cen“ v obsahu stránky vykreslí jako karty
+ * .lc-price a sousední karty seskupí do mřížky .lc-prices. Obsah v databázi se nemění;
+ * bez tohoto vzoru se HTML vrátí beze změny. Nadpis karty je z prvního sloupce, u prázdného
+ * z krátkého tučného bloku těsně před kartou (ten se pak nevypíše).
+ *
+ * @param string $html Vykreslený obsah.
+ * @return string
+ */
+function lc_pricelist_cards( string $html ): string {
+	if ( ! is_singular() || false === strpos( $html, 'wp-block-columns' ) || false === strpos( $html, '<code' ) || ! class_exists( 'DOMDocument' ) ) {
+		return $html;
+	}
+	$doc  = new DOMDocument();
+	$prev = libxml_use_internal_errors( true );
+	$doc->loadHTML( '<?xml encoding="utf-8"?><div id="lc-root">' . $html . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+	libxml_clear_errors();
+	libxml_use_internal_errors( $prev );
+	$root = $doc->getElementById( 'lc-root' );
+	if ( ! $root ) {
+		return $html;
+	}
+	$xpath = new DOMXPath( $doc );
+	$text  = static fn( DOMNode $n ): string => trim( (string) preg_replace( '/\s+/u', ' ', str_replace( "\xc2\xa0", ' ', $n->textContent ) ) );
+	$price = static function ( string $s ): string {
+		$s = (string) preg_replace( '/,-\s*/u', ' ', $s );                // 190,- Kč → 190 Kč
+		$s = (string) preg_replace( '/\s*\/\s*/u', '/', $s );              // Kč / m² → Kč/m²
+		$s = (string) preg_replace( '/(\d)\.(\d{3})\b/u', "$1\u{00a0}$2", $s ); // 1.500 → 1 500
+		$s = (string) preg_replace( '/(\d)(\d{3})(?=\s*Kč)/u', "$1\u{00a0}$2", $s ); // 1000 Kč → 1 000 Kč
+		return trim( (string) preg_replace( '/\s+(?=Kč)/u', "\u{00a0}", $s ) );
+	};
+	$cards = array();
+	foreach ( iterator_to_array( $xpath->query( './/div[contains(concat(" ", normalize-space(@class), " "), " wp-block-columns ")]', $root ) ) as $block ) {
+		$cols = array();
+		foreach ( $block->childNodes as $child ) {
+			if ( $child instanceof DOMElement && str_contains( ' ' . $child->getAttribute( 'class' ) . ' ', ' wp-block-column ' ) ) {
+				$cols[] = $child;
+			}
+		}
+		if ( 3 !== count( $cols ) ) {
+			continue;
+		}
+		$labels = iterator_to_array( $xpath->query( './ul/li', $cols[1] ) );
+		$values = iterator_to_array( $xpath->query( './ul/li', $cols[2] ) );
+		if ( ! $labels || count( $labels ) !== count( $values ) || ! $xpath->query( './/code', $cols[2] )->length ) {
+			continue;
+		}
+		$title = $text( $cols[0] );
+		if ( '' === $title ) {
+			$before = $block->previousSibling;
+			while ( $before && ! $before instanceof DOMElement ) {
+				$before = $before->previousSibling;
+			}
+			if ( $before instanceof DOMElement && $xpath->query( './/strong', $before )->length && mb_strlen( $text( $before ) ) <= 80 ) {
+				$title = $text( $xpath->query( './/strong', $before )->item( 0 ) );
+				$before->parentNode->removeChild( $before );
+			}
+		}
+		$card = $doc->createElement( 'div' );
+		$card->setAttribute( 'class', 'lc-price' );
+		if ( '' !== $title ) {
+			$h = $doc->createElement( 'h3' );
+			$h->setAttribute( 'class', 'lc-price__title' );
+			$h->appendChild( $doc->createTextNode( rtrim( $title, ': ' ) ) );
+			$card->appendChild( $h );
+		}
+		$dl = $doc->createElement( 'dl' );
+		$dl->setAttribute( 'class', 'lc-price__list' );
+		foreach ( $labels as $i => $li ) {
+			$dt = $doc->createElement( 'dt' );
+			$dt->appendChild( $doc->createTextNode( rtrim( $text( $li ), ': ' ) ) );
+			$dd = $doc->createElement( 'dd' );
+			$dd->appendChild( $doc->createTextNode( $price( $text( $values[ $i ] ) ) ) );
+			$dl->appendChild( $dt );
+			$dl->appendChild( $dd );
+		}
+		$card->appendChild( $dl );
+		$block->parentNode->replaceChild( $card, $block );
+		$cards[] = $card;
+	}
+	if ( ! $cards ) {
+		return $html;
+	}
+	// Sousední karty (mezi nimi jen mezery) do jedné mřížky.
+	$grid = null;
+	foreach ( $cards as $card ) {
+		$before = $card->previousSibling;
+		while ( $before && ! $before instanceof DOMElement && '' === trim( $before->textContent ) ) {
+			$before = $before->previousSibling;
+		}
+		if ( ! $grid || $before !== $grid ) {
+			$grid = $doc->createElement( 'div' );
+			$grid->setAttribute( 'class', 'lc-prices lc-prices--content' );
+			$card->parentNode->insertBefore( $grid, $card );
+		}
+		$grid->appendChild( $card );
+	}
+	$out = '';
+	foreach ( $root->childNodes as $child ) {
+		$out .= $doc->saveHTML( $child );
+	}
+	return $out;
+}
+add_filter( 'the_content', 'lc_pricelist_cards', 20 );
+
+/* -------------------------------------------------------------------------
+ * Kontakt ve dvou kartách, box s cenovou nabídkou jako odkaz na formulář
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Úpravy vykresleného obsahu (obsah v databázi se nemění):
+ * - na stránce s kontaktním formulářem (.ekc-form) se odstavce před prvním oddělovačem
+ *   vypíšou jako karty .lc-contact-card v mřížce .lc-contact-cards; telefon dostane odkaz tel:,
+ *   karta s adresou odkaz na mapu,
+ * - zvýrazněný odstavec (.has-background) s textem „cenovou nabídku“ bez odkazu vede celý
+ *   na formulář na stránce Kontakt.
+ *
+ * @param string $html Vykreslený obsah.
+ * @return string
+ */
+function lc_content_enhance( string $html ): string {
+	$has_form = false !== strpos( $html, 'ekc-form' );
+	$has_box  = false !== stripos( $html, 'has-background' ) && false !== mb_stripos( $html, 'cenovou nabídku' );
+	if ( ! is_singular() || ( ! $has_form && ! $has_box ) || ! class_exists( 'DOMDocument' ) ) {
+		return $html;
+	}
+	$doc  = new DOMDocument();
+	$prev = libxml_use_internal_errors( true );
+	$doc->loadHTML( '<?xml encoding="utf-8"?><div id="lc-root">' . $html . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+	libxml_clear_errors();
+	libxml_use_internal_errors( $prev );
+	$root = $doc->getElementById( 'lc-root' );
+	if ( ! $root ) {
+		return $html;
+	}
+	$xpath   = new DOMXPath( $doc );
+	$changed = false;
+
+	// Box s cenovou nabídkou → odkaz na formulář.
+	$contact = get_page_by_path( 'kontakt' );
+	if ( $has_box && $contact && ! is_page( 'kontakt' ) ) {
+		foreach ( iterator_to_array( $xpath->query( './p[contains(concat(" ", normalize-space(@class), " "), " has-background ")]', $root ) ) as $p ) {
+			if ( false === mb_stripos( $p->textContent, 'cenovou nabídku' ) || $xpath->query( './/a', $p )->length ) {
+				continue;
+			}
+			$a = $doc->createElement( 'a' );
+			$a->setAttribute( 'href', get_permalink( $contact ) . '#ekc-contact-1' );
+			$a->setAttribute( 'class', 'lc-box-link' );
+			while ( $p->firstChild ) {
+				$a->appendChild( $p->firstChild );
+			}
+			$p->appendChild( $a );
+			$p->setAttribute( 'class', trim( $p->getAttribute( 'class' ) . ' lc-box-linked' ) );
+			$changed = true;
+		}
+	}
+
+	// Kontaktní údaje nad oddělovačem → karty vedle sebe.
+	if ( $has_form ) {
+		$cards = array();
+		foreach ( $root->childNodes as $node ) {
+			if ( ! $node instanceof DOMElement ) {
+				continue;
+			}
+			if ( 'p' !== $node->nodeName ) {
+				break; // první oddělovač nebo jiný blok ukončí kontaktní údaje
+			}
+			$cards[] = $node;
+		}
+		if ( count( $cards ) >= 2 && count( $cards ) <= 3 ) {
+			$grid = $doc->createElement( 'div' );
+			$grid->setAttribute( 'class', 'lc-contact-cards' );
+			$root->insertBefore( $grid, $cards[0] );
+			foreach ( $cards as $p ) {
+				$p->removeAttribute( 'style' );
+				$card = $doc->createElement( 'div' );
+				$card->setAttribute( 'class', 'lc-contact-card' );
+				$card->appendChild( $p );
+				// Telefon jako odkaz (jen v textu mimo existující odkazy).
+				foreach ( iterator_to_array( $xpath->query( './/text()[not(ancestor::a)]', $p ) ) as $t ) {
+					if ( ! preg_match( '/(\+?\d[\d ]{7,}\d)/u', $t->nodeValue, $m, PREG_OFFSET_CAPTURE ) || strlen( preg_replace( '/\D/', '', $m[1][0] ) ) < 9 || false !== stripos( $t->nodeValue, 'IČ' ) ) {
+						continue;
+					}
+					$after = $t->splitText( $m[1][1] );
+					$after->splitText( strlen( $m[1][0] ) );
+					$a = $doc->createElement( 'a' );
+					$a->setAttribute( 'href', 'tel:' . ( str_starts_with( $m[1][0], '+' ) ? '' : '+420' ) . preg_replace( '/\D/', '', $m[1][0] ) );
+					$after->parentNode->replaceChild( $a, $after );
+					$a->appendChild( $after );
+				}
+				// Karta s adresou z Přizpůsobit dostane odkaz na mapu.
+				$street = trim( (string) strtok( (string) ekt_opt( 'site_address' ), ',' ) );
+				if ( '' !== $street && false !== mb_stripos( $p->textContent, $street ) && lc_map_url() ) {
+					$map = $doc->createElement( 'a' );
+					$map->setAttribute( 'href', lc_map_url() );
+					$map->setAttribute( 'target', '_blank' );
+					$map->setAttribute( 'rel', 'noopener' );
+					$map->setAttribute( 'class', 'lc-contact-card__map' );
+					$map->appendChild( $doc->createTextNode( 'Zobrazit na mapě →' ) );
+					$card->appendChild( $map );
+				}
+				$grid->appendChild( $card );
+			}
+			$changed = true;
+		}
+	}
+
+	if ( ! $changed ) {
+		return $html;
+	}
+	$out = '';
+	foreach ( $root->childNodes as $child ) {
+		$out .= $doc->saveHTML( $child );
+	}
+	return $out;
+}
+add_filter( 'the_content', 'lc_content_enhance', 21 );

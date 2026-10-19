@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.2.3 — 2026-10-19
+
+### Šablona
+- **Ceník v kartách** jako „Vybrané ceny“ na titulce: každá skupina (sedačky, koberce, vozidla, okna, ozon) je samostatný box, na desktopu tři vedle sebe, na mobilu pod sebou. Ceny v jednotném zápisu (190 Kč/bm, od 1 500 Kč). Obsah stránky se nemění, karty skládá šablona z dosavadních sloupců, a funguje to i bez JavaScriptu.
+- **Box „Vyžádejte si nezávaznou cenovou nabídku“** v ceníku vede celý na kontaktní formulář.
+- **Kontakt**: kontaktní osoba a údaje firmy ve dvou sloupcích vedle sebe (na mobilu pod sebou), telefon jako odkaz a u adresy odkaz na mapu.
+
+### Luxury Clean Core
+- Beze změny, jen číslo verze.
+
 ## v0.2.2 — 2026-10-19
 
 ### Šablona

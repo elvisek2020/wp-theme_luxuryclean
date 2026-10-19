@@ -261,21 +261,30 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--c
 /* Barvy uložené v obsahu ze staré šablony (žluté zvýraznění v ceníku) ztlumit do zlaté. */
 .entry__content .has-luminous-vivid-amber-background-color { background: var(--color-gold) !important; color: var(--color-on-gold) !important; }
 
-/* Ceník: tři sloupce nadpis | položky | ceny, srovnané řádek po řádku (theme.js přidá .lc-pricelist). */
-.entry__content .lc-pricelist { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) auto; gap: 0 24px; margin-block: 0; padding-block: 14px; border-bottom: 1px solid var(--color-border); }
-.entry__content .lc-pricelist > .wp-block-column { margin: 0; }
-.entry__content .lc-pricelist > .wp-block-column > p { margin: 0 0 8px; font-weight: 600; color: var(--color-heading); }
-.entry__content .lc-pricelist ul { margin: 0 !important; padding: 0; list-style: none; }
-.entry__content .lc-pricelist li { margin: 0; padding: 5px 0; box-sizing: border-box; }
-.entry__content .lc-pricelist li > br:last-child { display: none; }
-.entry__content .lc-pricelist p:empty { display: none; }
-.entry__content .lc-pricelist > .wp-block-column:last-child li { text-align: right; white-space: nowrap; }
-.entry__content .lc-pricelist code, .entry__content .lc-pricelist mark { font: inherit; font-weight: 600; color: var(--color-heading) !important; background: none !important; padding: 0; }
-@media (max-width: 781px) {
-	.entry__content .lc-pricelist { grid-template-columns: minmax(0, 1fr) auto; gap: 0 16px; }
-	.entry__content .lc-pricelist > .wp-block-column:first-child { grid-column: 1 / -1; }
-	.entry__content .lc-pricelist > .lc-pricelist__empty { display: none; }
+/* Ceník v obsahu stránky jako karty (lc_pricelist_cards() v inc/site-luxuryclean.php), mřížka přes celou šířku webu. */
+.entry__content .lc-prices--content {
+	width: min(var(--wrap), 100vw - 2 * var(--gutter));
+	margin-inline: calc((100% - min(var(--wrap), 100vw - 2 * var(--gutter))) / 2);
+	margin-block: 8px 28px;
 }
+.entry__content .lc-price__title { margin: 0 0 .6em; font-size: 1.25rem; }
+.entry__content .lc-price__list dt, .entry__content .lc-price__list dd { margin: 0; }
+
+/* Kontakt: údaje nad formulářem ve dvou sloupcích bez rámečků (lc_content_enhance()). */
+.entry__content .lc-contact-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 40px; margin-block: 0 28px; }
+.entry__content .lc-contact-card { min-width: 0; }
+.entry__content .lc-contact-card p { margin: 0; font-size: 1rem; line-height: 1.75; }
+.entry__content .lc-contact-card a { color: var(--color-accent); }
+.entry__content .lc-contact-card__map { display: inline-block; margin-top: 10px; font-weight: 600; font-size: .9375rem; text-decoration: none; }
+@media (max-width: 760px) { .entry__content .lc-contact-cards { grid-template-columns: minmax(0, 1fr); } }
+
+/* Zvýrazněný box s cenovou nabídkou jako odkaz na formulář. */
+.entry__content .lc-box-linked { position: relative; transition: filter .15s; }
+.entry__content .lc-box-linked:hover { filter: brightness(1.06); }
+.entry__content .lc-box-link { color: inherit; text-decoration: none; }
+.entry__content .lc-box-link::after { content: ""; position: absolute; inset: 0; }
+.entry__content .lc-box-link::before { content: "→ "; }
+
 /* Barva textu natvrdo černá ze staré šablony by v tmavém režimu zmizela. */
 .entry__content .has-black-color { color: inherit !important; }
 
