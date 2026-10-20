@@ -282,6 +282,17 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--c
 .entry__content .lc-contact-card__social .ekt-social__link:hover { border-color: var(--color-gold); color: var(--color-accent); }
 .entry__content .lc-contact-card__social .ekt-social__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
+/* Kontakt: formulář v panelu s nadpisem (lc_content_enhance()). */
+.entry__content .lc-form-panel {
+	margin-block: 56px 0; padding: 40px 44px 44px; scroll-margin-top: 110px;
+	background: var(--section-alt); border: 1px solid var(--color-border); border-radius: var(--radius);
+}
+.entry__content .lc-form-panel__title { margin: 0 0 10px; font-size: clamp(1.5rem, 3vw, 2rem); }
+.entry__content .lc-form-panel > p:not(.kicker) { margin: 0 0 24px; color: var(--color-muted); }
+.entry__content .lc-form-panel .ekc-form { margin: 0; }
+.entry__content .lc-form-panel .ekc-form__input { background: var(--color-bg); }
+@media (max-width: 600px) { .entry__content .lc-form-panel { padding: 28px 20px 32px; margin-top: 40px; } }
+
 /* Zvýrazněný box s cenovou nabídkou jako odkaz na formulář. */
 .entry__content .lc-box-linked { position: relative; transition: filter .15s; }
 .entry__content .lc-box-linked:hover { filter: brightness(1.06); }

@@ -147,14 +147,14 @@ function lc_map_url(): string {
 }
 
 /**
- * Odkaz na kontaktní formulář (stránka Kontakt, kotva formuláře), nebo '' bez stránky Kontakt.
+ * Odkaz na kontaktní formulář (stránka Kontakt, kotva panelu #poptavka), nebo '' bez stránky Kontakt.
  * Všechna tlačítka „Nezávazná poptávka“ vedou sem.
  *
  * @return string
  */
 function lc_form_url(): string {
 	$contact = get_page_by_path( 'kontakt' );
-	return $contact ? get_permalink( $contact ) . '#ekc-contact-1' : '';
+	return $contact ? get_permalink( $contact ) . '#poptavka' : '';
 }
 
 /**
@@ -433,6 +433,7 @@ add_filter( 'the_content', 'lc_pricelist_cards', 20 );
  * - na stránce s kontaktním formulářem (.ekc-form) se odstavce před prvním oddělovačem
  *   vypíšou jako karty .lc-contact-card v mřížce .lc-contact-cards; telefon dostane odkaz tel:,
  *   karta s adresou odkaz na mapu,
+ * - formulář s úvodním odstavcem v panelu section#poptavka.lc-form-panel s nadpisem „Nezávazná poptávka“,
  * - zvýrazněný odstavec (.has-background) s textem „cenovou nabídku“ bez odkazu vede celý
  *   na formulář na stránce Kontakt.
  *
@@ -532,6 +533,52 @@ function lc_content_enhance( string $html ): string {
 				foreach ( iterator_to_array( $tmp->documentElement->childNodes ) as $node ) {
 					$grid->firstChild->appendChild( $doc->importNode( $node, true ) );
 				}
+			}
+			$changed = true;
+		}
+	}
+
+	// Formulář v panelu s nadpisem: úvodní odstavec těsně před formulářem jde do panelu,
+	// oddělovač před ním odpadne (mezeru dělá panel).
+	if ( $has_form ) {
+		$form = $xpath->query( '//*[contains(concat(" ", normalize-space(@class), " "), " ekc-form ")]', $root )->item( 0 );
+		$top  = $form;
+		while ( $top && $top->parentNode !== $root ) {
+			$top = $top->parentNode;
+		}
+		if ( $top instanceof DOMElement ) {
+			$prev_el = static function ( DOMNode $n ): ?DOMElement {
+				$n = $n->previousSibling;
+				while ( $n && ! $n instanceof DOMElement ) {
+					$n = $n->previousSibling;
+				}
+				return $n instanceof DOMElement ? $n : null;
+			};
+			$move  = array( $top );
+			$intro = $prev_el( $top );
+			if ( $intro && 'p' === $intro->nodeName ) {
+				array_unshift( $move, $intro );
+				$sep = $prev_el( $intro );
+			} else {
+				$sep = $intro;
+			}
+			if ( $sep && 'hr' === $sep->nodeName ) {
+				$sep->parentNode->removeChild( $sep );
+			}
+			$panel = $doc->createElement( 'section' );
+			$panel->setAttribute( 'class', 'lc-form-panel' );
+			$panel->setAttribute( 'id', 'poptavka' );
+			$kicker = $doc->createElement( 'p' );
+			$kicker->setAttribute( 'class', 'kicker' );
+			$kicker->appendChild( $doc->createTextNode( 'Napište nám' ) );
+			$title = $doc->createElement( 'h2' );
+			$title->setAttribute( 'class', 'lc-form-panel__title' );
+			$title->appendChild( $doc->createTextNode( 'Nezávazná poptávka' ) );
+			$root->insertBefore( $panel, $move[0] );
+			$panel->appendChild( $kicker );
+			$panel->appendChild( $title );
+			foreach ( $move as $node ) {
+				$panel->appendChild( $node );
 			}
 			$changed = true;
 		}

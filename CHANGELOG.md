@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.5 — 2026-10-20
+
+### Šablona
+- **Kontakt: formulář v samostatném panelu** s nadpisem „Nezávazná poptávka“ a větší mezerou od kontaktních údajů. Tlačítka „Nezávazná poptávka“ vedou na začátek panelu, takže je nadpis vidět.
+
+### Luxury Clean Core
+- Beze změny, jen číslo verze.
+
 ## v0.2.4 — 2026-10-20
 
 ### Šablona
