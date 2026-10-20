@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Luxury Clean Core
  * Description:       Funkce webu Luxury Clean nezávislé na šabloně. Nahrazuje 4 pluginy.
- * Version:           0.2.5
+ * Version:           0.2.6
  * Requires at least: 6.4
  * Tested up to:      7.1
  * Requires PHP:      8.1

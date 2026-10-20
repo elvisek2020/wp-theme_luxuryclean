@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.6 — 2026-10-20
+
+### Šablona
+- **Výraznější logo**: nápis „Luxury Clean“ a monogram LC v tučném řezu Cinzel Decorative (700), silnější obrysy znaku. Tučné řezy písma jsou přibalené lokálně.
+
+### Luxury Clean Core
+- Beze změny, jen číslo verze.
+
 ## v0.2.5 — 2026-10-20
 
 ### Šablona

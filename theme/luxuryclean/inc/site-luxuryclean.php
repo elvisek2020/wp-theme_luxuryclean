@@ -200,15 +200,15 @@ function lc_logo_svg( string $class = 'lc-logo', bool $mark = false ): string {
 	$grad = '<defs><linearGradient id="' . $id . '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a67c1e"/><stop offset=".45" stop-color="#e6c25e"/><stop offset=".7" stop-color="#c99a2e"/><stop offset="1" stop-color="#a67c1e"/></linearGradient></defs>';
 	$gold = 'url(#' . $id . ')';
 	$emb  = '<g fill="' . $gold . '"><path d="M40 30 37 13l11 8 9-14 9 14 11-8-3 17z"/><circle cx="37" cy="11" r="3"/><circle cx="57" cy="5" r="3.2"/><circle cx="77" cy="11" r="3"/><rect x="40" y="31" width="34" height="3.2" rx="1.2"/></g>'
-		. '<circle cx="57" cy="78" r="44" fill="none" stroke="' . $gold . '" stroke-width="2.6"/>'
-		. '<circle cx="57" cy="78" r="38" fill="none" stroke="' . $gold . '" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0 5.2"/>'
-		. '<text x="57" y="92" text-anchor="middle" font-family="' . esc_attr( $font ) . '" font-size="40" fill="' . $gold . '" letter-spacing="-2">LC</text>';
+		. '<circle cx="57" cy="78" r="44" fill="none" stroke="' . $gold . '" stroke-width="3.4"/>'
+		. '<circle cx="57" cy="78" r="38" fill="none" stroke="' . $gold . '" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="0 5.6"/>'
+		. '<text x="57" y="92" text-anchor="middle" font-family="' . esc_attr( $font ) . '" font-size="40" font-weight="700" fill="' . $gold . '" letter-spacing="-2">LC</text>';
 	$name = esc_attr( get_bloginfo( 'name' ) );
 	if ( $mark ) {
 		return '<svg class="' . esc_attr( $class ) . '" viewBox="0 0 114 124" role="img" aria-label="' . $name . '">' . $grad . $emb . '</svg>';
 	}
-	return '<svg class="' . esc_attr( $class ) . '" viewBox="0 0 536 124" role="img" aria-label="' . $name . '">' . $grad . $emb
-		. '<text x="134" y="88" font-family="' . esc_attr( $font ) . '" font-size="50" letter-spacing="1"><tspan fill="var(--lc-logo-text, #0d0d0f)">Luxury</tspan> <tspan fill="' . $gold . '">Clean</tspan></text></svg>';
+	return '<svg class="' . esc_attr( $class ) . '" viewBox="0 0 558 124" role="img" aria-label="' . $name . '">' . $grad . $emb
+		. '<text x="134" y="88" font-family="' . esc_attr( $font ) . '" font-size="50" font-weight="700" letter-spacing="1"><tspan fill="var(--lc-logo-text, #0d0d0f)">Luxury</tspan> <tspan fill="' . $gold . '">Clean</tspan></text></svg>';
 }
 
 /* -------------------------------------------------------------------------
