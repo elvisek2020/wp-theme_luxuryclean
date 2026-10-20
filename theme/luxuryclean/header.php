@@ -1,6 +1,6 @@
 <?php
 /**
- * Hlavička: horní lišta s kontakty, logo, hlavní menu, tlačítko Napište nám, začátek <main>.
+ * Hlavička: horní lišta s kontakty, logo, hlavní menu, tlačítko Nezávazná poptávka (mimo stránku Kontakt), začátek <main>.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -8,7 +8,6 @@ defined( 'ABSPATH' ) || exit;
 $lc_phone   = (string) ekt_opt( 'site_phone' );
 $lc_email   = (string) ekt_opt( 'site_email' );
 $lc_address = (string) ekt_opt( 'site_address' );
-$lc_contact = get_page_by_path( 'kontakt' );
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -65,8 +64,8 @@ $lc_contact = get_page_by_path( 'kontakt' );
 			</nav>
 		<?php endif; ?>
 
-		<?php if ( $lc_contact ) : ?>
-			<a class="btn site-header__cta" href="<?php echo esc_url( get_permalink( $lc_contact ) ); ?>">Napište nám</a>
+		<?php if ( lc_form_url() && ! is_page( 'kontakt' ) ) : ?>
+			<a class="btn site-header__cta" href="<?php echo esc_url( lc_form_url() ); ?>">Nezávazná poptávka</a>
 		<?php endif; ?>
 	</div>
 </header>

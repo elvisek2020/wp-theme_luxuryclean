@@ -17,7 +17,6 @@ $lc_front    = (int) get_option( 'page_on_front' );
 $lc_services = lc_front_services( $lc_front );
 $lc_prices   = lc_prices();
 $lc_title    = (string) ekt_opt( 'site_hero_title' );
-$lc_contact  = get_page_by_path( 'kontakt' );
 $lc_pricing  = get_page_by_path( 'cenik-uklidu' );
 $lc_phone    = (string) ekt_opt( 'site_phone' );
 ?>
@@ -32,8 +31,8 @@ $lc_phone    = (string) ekt_opt( 'site_phone' );
 				<p class="lc-hero__lead"><?php echo esc_html( (string) ekt_opt( 'site_hero_text' ) ); ?></p>
 			<?php endif; ?>
 			<p class="lc-hero__actions">
-				<?php if ( $lc_contact ) : ?>
-					<a class="btn" href="<?php echo esc_url( get_permalink( $lc_contact ) ); ?>">Nezávazná poptávka</a>
+				<?php if ( lc_form_url() ) : ?>
+					<a class="btn" href="<?php echo esc_url( lc_form_url() ); ?>">Nezávazná poptávka</a>
 				<?php endif; ?>
 				<?php if ( $lc_phone ) : ?>
 					<a class="btn btn--ghost" href="<?php echo esc_url( lc_phone_href() ); ?>">Zavolat <?php echo esc_html( $lc_phone ); ?></a>

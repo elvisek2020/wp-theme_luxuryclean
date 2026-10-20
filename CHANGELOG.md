@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.2.4 — 2026-10-20
+
+### Šablona
+- **Jedno tlačítko „Nezávazná poptávka“** v hlavičce, v úvodu i ve spodním pruhu (dřív „Napište nám“ a „Poptávkový formulář“), všechna vedou rovnou na formulář. Na stránce Kontakt se tlačítko v hlavičce nezobrazuje.
+- **Hlavička na užších obrazovkách**: menu se přepne na mobilní už pod 1080 px, položky se nelámou do dvou řádků.
+- **Kontakt**: pod kontaktními údaji ikony sociálních sítí (e-mail, Facebook, Instagram), stejné jako v patičce, upravují se v Přizpůsobit → Sociální sítě.
+
+### Luxury Clean Core
+- Beze změny, jen číslo verze.
+
 ## v0.2.3 — 2026-10-19
 
 ### Šablona

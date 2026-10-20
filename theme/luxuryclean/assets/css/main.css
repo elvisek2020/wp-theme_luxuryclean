@@ -150,7 +150,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--c
 .site-nav__list, .site-nav .sub-menu { margin: 0; padding: 0; list-style: none; }
 .site-nav__list { display: flex; gap: 4px; }
 .site-nav__list > li { position: relative; }
-.site-nav a { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: var(--radius-sm); color: var(--color-heading); font-weight: 500; font-size: .9375rem; text-decoration: none; }
+.site-nav a { display: flex; align-items: center; gap: 6px; white-space: nowrap; padding: 8px 12px; border-radius: var(--radius-sm); color: var(--color-heading); font-weight: 500; font-size: .9375rem; text-decoration: none; }
 .site-nav a:hover, .site-nav .current-menu-item > a, .site-nav .current-menu-ancestor > a { color: var(--color-accent); }
 .site-nav .menu-item-has-children > a::after { content: ""; width: 7px; height: 7px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); }
 .site-nav .sub-menu {
@@ -164,7 +164,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--c
 .site-nav__toggle { display: none; margin-left: auto; padding: 8px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: transparent; color: var(--color-heading); cursor: pointer; line-height: 0; }
 .site-header__cta { flex: none; }
 
-@media (max-width: 960px) {
+@media (max-width: 1080px) {
 	.lc-logo { height: 46px; }
 	.site-nav__toggle { display: block; }
 	.site-header__cta { display: none; }
@@ -277,6 +277,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; color: var(--c
 .entry__content .lc-contact-card a { color: var(--color-accent); }
 .entry__content .lc-contact-card__map { display: inline-block; margin-top: 10px; font-weight: 600; font-size: .9375rem; text-decoration: none; }
 @media (max-width: 760px) { .entry__content .lc-contact-cards { grid-template-columns: minmax(0, 1fr); } }
+.entry__content .lc-contact-card__social { display: flex; gap: 8px; margin-top: 14px; }
+.entry__content .lc-contact-card__social .ekt-social__link { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid var(--color-silver); border-radius: 50%; color: var(--color-heading); transition: border-color .15s, color .15s; }
+.entry__content .lc-contact-card__social .ekt-social__link:hover { border-color: var(--color-gold); color: var(--color-accent); }
+.entry__content .lc-contact-card__social .ekt-social__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 /* Zvýrazněný box s cenovou nabídkou jako odkaz na formulář. */
 .entry__content .lc-box-linked { position: relative; transition: filter .15s; }

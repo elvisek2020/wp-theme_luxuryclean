@@ -147,6 +147,17 @@ function lc_map_url(): string {
 }
 
 /**
+ * Odkaz na kontaktní formulář (stránka Kontakt, kotva formuláře), nebo '' bez stránky Kontakt.
+ * Všechna tlačítka „Nezávazná poptávka“ vedou sem.
+ *
+ * @return string
+ */
+function lc_form_url(): string {
+	$contact = get_page_by_path( 'kontakt' );
+	return $contact ? get_permalink( $contact ) . '#ekc-contact-1' : '';
+}
+
+/**
  * Vybrané ceny z Přizpůsobit.
  *
  * @return array<int,array{title:string,rows:array<int,array{0:string,1:string}>}>
@@ -447,14 +458,13 @@ function lc_content_enhance( string $html ): string {
 	$changed = false;
 
 	// Box s cenovou nabídkou → odkaz na formulář.
-	$contact = get_page_by_path( 'kontakt' );
-	if ( $has_box && $contact && ! is_page( 'kontakt' ) ) {
+	if ( $has_box && lc_form_url() && ! is_page( 'kontakt' ) ) {
 		foreach ( iterator_to_array( $xpath->query( './p[contains(concat(" ", normalize-space(@class), " "), " has-background ")]', $root ) ) as $p ) {
 			if ( false === mb_stripos( $p->textContent, 'cenovou nabídku' ) || $xpath->query( './/a', $p )->length ) {
 				continue;
 			}
 			$a = $doc->createElement( 'a' );
-			$a->setAttribute( 'href', get_permalink( $contact ) . '#ekc-contact-1' );
+			$a->setAttribute( 'href', lc_form_url() );
 			$a->setAttribute( 'class', 'lc-box-link' );
 			while ( $p->firstChild ) {
 				$a->appendChild( $p->firstChild );
@@ -510,6 +520,18 @@ function lc_content_enhance( string $html ): string {
 					$card->appendChild( $map );
 				}
 				$grid->appendChild( $card );
+			}
+			// Ikony sociálních sítí (modul social, stejné jako v patičce) pod první kartu.
+			$social = function_exists( 'ekt_social_links' ) ? (string) ekt_social_links( 'lc-contact-card__social' ) : '';
+			if ( '' !== $social ) {
+				$tmp = new DOMDocument();
+				$old = libxml_use_internal_errors( true );
+				$tmp->loadHTML( '<?xml encoding="utf-8"?><div>' . $social . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+				libxml_clear_errors();
+				libxml_use_internal_errors( $old );
+				foreach ( iterator_to_array( $tmp->documentElement->childNodes ) as $node ) {
+					$grid->firstChild->appendChild( $doc->importNode( $node, true ) );
+				}
 			}
 			$changed = true;
 		}

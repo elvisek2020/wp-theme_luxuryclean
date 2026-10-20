@@ -7,7 +7,6 @@ defined( 'ABSPATH' ) || exit;
 
 $lc_title   = (string) ekt_opt( 'site_cta_title' );
 $lc_phone   = (string) ekt_opt( 'site_phone' );
-$lc_contact = get_page_by_path( 'kontakt' );
 if ( '' === $lc_title || is_page( 'kontakt' ) ) {
 	return;
 }
@@ -25,8 +24,8 @@ if ( '' === $lc_title || is_page( 'kontakt' ) ) {
 				<?php if ( $lc_phone ) : ?>
 					<a class="lc-cta__tel" href="<?php echo esc_url( lc_phone_href() ); ?>"><?php echo esc_html( $lc_phone ); ?></a>
 				<?php endif; ?>
-				<?php if ( $lc_contact ) : ?>
-					<a class="btn" href="<?php echo esc_url( get_permalink( $lc_contact ) ); ?>">Poptávkový formulář</a>
+				<?php if ( lc_form_url() ) : ?>
+					<a class="btn" href="<?php echo esc_url( lc_form_url() ); ?>">Nezávazná poptávka</a>
 				<?php endif; ?>
 			</div>
 		</div>

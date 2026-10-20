@@ -18,7 +18,7 @@
 		a.setAttribute('aria-expanded', 'false');
 		a.addEventListener('click', (e) => {
 			const li = a.parentElement;
-			if (a.getAttribute('href') === '#' || window.matchMedia('(max-width: 960px)').matches) {
+			if (a.getAttribute('href') === '#' || window.matchMedia('(max-width: 1080px)').matches) {
 				e.preventDefault();
 				const open = !li.classList.contains('is-open');
 				nav.querySelectorAll('.menu-item-has-children.is-open').forEach((x) => { if (x !== li) { x.classList.remove('is-open'); x.firstElementChild.setAttribute('aria-expanded', 'false'); } });
