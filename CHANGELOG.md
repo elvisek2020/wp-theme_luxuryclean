@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.3.0 — 2026-11-02
+
+### Šablona
+- **Lightbox** (aktualizace modulu podle skillu): nová volba Přizpůsobit → Články → „Zvětšovat i obrázky bez odkazu“ (výchozí vypnuto, chování se nemění).
+
+### Luxury Clean Core
+- **Soubory jádra prozrazující verzi WordPressu** (`readme.html`, `license.txt`, `wp-config-sample.php`) vrací 403. Pravidlo se po aktualizaci samo zapíše do `.htaccess` ve vlastním bloku „Luxury Clean Core“ vedle bloku WordPressu a při deaktivaci pluginu se odebere. Vypíná se v Nastavení → Luxury Clean Core → Zabezpečení.
+- **REST batch API** (`/wp-json/batch/v1`) jen pro přihlášené, nepřihlášenému vrátí 401 (používá ho jen editor bloků).
+- **Hlavička Cross-Origin-Opener-Policy** (oddělená okna) přibyla k bezpečnostním hlavičkám. Content-Security-Policy je nová volba, ve výchozím stavu vypnutá.
+- **security.txt**: nová volba „Kontakt pro hlášení zranitelností“, prázdná = vypnuto.
+- **Aktualizace z GitHubu**: v Aktualizacích se už nehlásí „Kompatibilita s WordPressem: Nebylo otestováno“ u verze 7.1.x.
+- Odinstalace pluginu uklidí i data nových volitelných modulů (bez dopadu na tento web).
+
 ## v0.2.6 — 2026-10-20
 
 ### Šablona
