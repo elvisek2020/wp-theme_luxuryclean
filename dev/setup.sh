@@ -45,6 +45,8 @@ wpc(){ docker compose run --rm -q cli wp "$@"; }
 for from in https://www.luxuryclean.cz http://www.luxuryclean.cz https://luxuryclean.cz http://luxuryclean.cz; do
   wpc search-replace "$from" 'http://localhost:8412' --all-tables --precise --quiet
 done
+# Absolutní cesta k uploads z hostingu (volba upload_path) by lokálně znemožnila nahrávání.
+wpc option update upload_path '' --quiet
 # ManageWP na lokálu nepatří.
 wpc plugin deactivate worker --quiet || true
 wpc cache flush --quiet

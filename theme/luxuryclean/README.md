@@ -20,7 +20,7 @@ Logika je v kanonických modulech `inc/ekt/`, vzhled v `assets/css/main.css` a �
 | `template-parts/offline.php` | kostra (offline stránka modulu pwa) |
 | `inc/setup.php` | menu (Hlavní, Patička: Služby, Patička: Web), styly a skript šablony |
 | `inc/site-luxuryclean.php` | Přizpůsobit → Kontakty a úvod, výchozí hodnoty ze starého webu (GA, rok, popis), logo `lc_logo_svg()`, karty `lc_front_services()`, ceny `lc_prices()`, odkazy patičky `lc_footer_links()` |
-| `inc/ekt/` | kanonické moduly: common, seo, analytics, content-links, lightbox, embeds, social, color-scheme, updater |
+| `inc/ekt/` | kanonické moduly: common, seo, analytics, content-links, lightbox, embeds, social, color-scheme, typography, updater |
 | `assets/css/main.css` | tokeny (světlé i tmavé), most na `--ekt-*`, vzhled |
 | `assets/css/fonts.css`, `assets/fonts/` | Poppins, Inter, Cinzel Decorative (woff2, latin + latin-ext, OFL) |
 | `assets/js/theme.js` | mobilní menu a podmenu na dotyk |

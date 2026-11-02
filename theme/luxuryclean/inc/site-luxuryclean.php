@@ -158,6 +158,18 @@ function lc_form_url(): string {
 }
 
 /**
+ * Text z Přizpůsobit nebo z obsahu pro výpis v šabloně: escapovaný a s českou typografií
+ * (pevné mezery za předložkami a v číslech, modul typography), když je modul zapnutý.
+ *
+ * @param string $text Prostý text.
+ * @return string HTML.
+ */
+function lc_text( string $text ): string {
+	$html = esc_html( $text );
+	return function_exists( 'ekt_typography' ) ? (string) ekt_typography( $html ) : $html;
+}
+
+/**
  * Vybrané ceny z Přizpůsobit.
  *
  * @return array<int,array{title:string,rows:array<int,array{0:string,1:string}>}>
@@ -422,7 +434,7 @@ function lc_pricelist_cards( string $html ): string {
 	}
 	return $out;
 }
-add_filter( 'the_content', 'lc_pricelist_cards', 20 );
+add_filter( 'the_content', 'lc_pricelist_cards', 15 ); // před typografií (20), ta pak zpracuje i karty
 
 /* -------------------------------------------------------------------------
  * Kontakt ve dvou kartách, box s cenovou nabídkou jako odkaz na formulář

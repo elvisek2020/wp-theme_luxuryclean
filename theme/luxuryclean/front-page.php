@@ -28,7 +28,7 @@ $lc_phone    = (string) ekt_opt( 'site_phone' );
 			<?php endif; ?>
 			<h1 class="lc-hero__title"><?php echo esc_html( '' !== $lc_title ? $lc_title : get_bloginfo( 'description' ) ); ?></h1>
 			<?php if ( ekt_opt( 'site_hero_text' ) ) : ?>
-				<p class="lc-hero__lead"><?php echo esc_html( (string) ekt_opt( 'site_hero_text' ) ); ?></p>
+				<p class="lc-hero__lead"><?php echo lc_text( (string) ekt_opt( 'site_hero_text' ) ); ?></p>
 			<?php endif; ?>
 			<p class="lc-hero__actions">
 				<?php if ( lc_form_url() ) : ?>
@@ -65,9 +65,9 @@ $lc_phone    = (string) ekt_opt( 'site_phone' );
 							<span class="lc-card__image"><img src="<?php echo esc_url( $lc_item['img'] ); ?>" alt="<?php echo esc_attr( $lc_item['alt'] ); ?>" loading="lazy" decoding="async"></span>
 						<?php endif; ?>
 						<span class="lc-card__body">
-							<span class="lc-card__title"><?php echo esc_html( $lc_item['title'] ); ?></span>
+							<span class="lc-card__title"><?php echo lc_text( $lc_item['title'] ); ?></span>
 							<?php if ( $lc_item['text'] ) : ?>
-								<span class="lc-card__text"><?php echo esc_html( $lc_item['text'] ); ?></span>
+								<span class="lc-card__text"><?php echo lc_text( $lc_item['text'] ); ?></span>
 							<?php endif; ?>
 							<span class="lc-card__more">Více <?php echo ekt_icon( 'arrow', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput ?></span>
 						</span>
@@ -102,18 +102,18 @@ $lc_phone    = (string) ekt_opt( 'site_phone' );
 		<div class="lc-prices">
 			<?php foreach ( $lc_prices as $lc_block ) : ?>
 				<div class="lc-price">
-					<h3 class="lc-price__title"><?php echo esc_html( $lc_block['title'] ); ?></h3>
+					<h3 class="lc-price__title"><?php echo lc_text( $lc_block['title'] ); ?></h3>
 					<dl class="lc-price__list">
 						<?php foreach ( $lc_block['rows'] as $lc_row ) : ?>
-							<dt><?php echo esc_html( $lc_row[0] ); ?></dt>
-							<dd><?php echo esc_html( $lc_row[1] ); ?></dd>
+							<dt><?php echo lc_text( $lc_row[0] ); // phpcs:ignore WordPress.Security.EscapeOutput ?></dt>
+							<dd><?php echo lc_text( $lc_row[1] ); // phpcs:ignore WordPress.Security.EscapeOutput ?></dd>
 						<?php endforeach; ?>
 					</dl>
 				</div>
 			<?php endforeach; ?>
 		</div>
 		<?php if ( ekt_opt( 'site_prices_note' ) ) : ?>
-			<p class="lc-prices__note"><?php echo esc_html( (string) ekt_opt( 'site_prices_note' ) ); ?></p>
+			<p class="lc-prices__note"><?php echo lc_text( (string) ekt_opt( 'site_prices_note' ) ); ?></p>
 		<?php endif; ?>
 	</div>
 </section>

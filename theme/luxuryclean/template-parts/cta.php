@@ -15,9 +15,9 @@ if ( '' === $lc_title || is_page( 'kontakt' ) ) {
 	<div class="wrap">
 		<div class="lc-cta__box">
 			<div>
-				<h2 class="lc-cta__title"><?php echo esc_html( $lc_title ); ?></h2>
+				<h2 class="lc-cta__title"><?php echo lc_text( $lc_title ); ?></h2>
 				<?php if ( ekt_opt( 'site_cta_text' ) ) : ?>
-					<p class="lc-cta__text"><?php echo esc_html( (string) ekt_opt( 'site_cta_text' ) ); ?></p>
+					<p class="lc-cta__text"><?php echo lc_text( (string) ekt_opt( 'site_cta_text' ) ); ?></p>
 				<?php endif; ?>
 			</div>
 			<div class="lc-cta__actions">

@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.5.0 — 2026-11-02
+
+### Luxury Clean Core
+- **Dvoufázové ověření** (nový modul two-factor): v Uživatelé → Profil se zapne naskenováním QR kódu do aplikace (Google Authenticator, Microsoft Authenticator, 1Password…), k tomu 10 záložních kódů. Po hesle se pak zadává šestimístný kód. Chybné kódy se počítají do blokace a zapisují do logu přihlášení. Povinné pro správce jde zapnout v Nastavení → Luxury Clean Core → Přihlášení.
+- **WebP** (nový modul webp): nahrané JPG a PNG se rovnou ukládají jako WebP, menší a rychlejší. Starší obrázky jde převést hromadně v Nástroje → Údržba webu → Převod na WebP (originály jdou do karantény, odkazy v obsahu se upraví), staré adresy .jpg/.png se přesměrují.
+- **Počítadlo zobrazení** (nový modul pageviews): počítá zobrazení stránek bez cookies a osobních údajů, takže nepotřebuje souhlas. Dnes, 7 a 30 dní a nejčtenější stránky ve widgetu Zdraví webu, sloupec Zobrazení v přehledu stránek.
+- **Komentáře vypnuté** (nový modul comments-off): web je nepoužívá, zmizí z administrace, kanálů i formulářů a ubude místo pro spam.
+
+### Šablona
+- **Česká typografie** (nový modul typography): pevné mezery za jednopísmennými předložkami a spojkami a mezi číslem a jednotkou, aby se řádek nelámal za „v“ nebo mezi „500“ a „Kč“. Platí pro obsah stránek, ceník, úvod, karty služeb i výzvu dole.
+
 ## v0.4.0 — 2026-11-02
 
 ### Luxury Clean Core

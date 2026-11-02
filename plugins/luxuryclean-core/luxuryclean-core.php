@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       Luxury Clean Core
- * Description:       Funkce webu Luxury Clean nezávislé na šabloně. Nahrazuje 4 pluginy.
- * Version:           0.4.0
+ * Description:       Funkce webu Luxury Clean nezávislé na šabloně. Nahrazuje 4 pluginy, přidává dvoufázové ověření, WebP a počítadlo zobrazení.
+ * Version:           0.5.0
  * Requires at least: 6.4
  * Tested up to:      7.1
  * Requires PHP:      8.1

@@ -40,15 +40,18 @@ Oba balíčky se vydávají společně se stejnou verzí z tagu `vX.Y.Z` (`luxur
 
 ## Plugin Luxury Clean Core
 
-Nahrazuje 4 dřívější pluginy a funguje nezávisle na šabloně.
+Nahrazuje dřívější pluginy (Limit Login Attempts, CAPTCHA 4WP, Server IP & Memory Usage, Forminator) a funguje nezávisle na šabloně.
 
 | Oblast | Co dělá |
 |---|---|
-| Přihlášení | limit pokusů s eskalací blokace, log přihlášení, sloupec Poslední přihlášení |
+| Přihlášení | limit pokusů s eskalací blokace, whitelist, log přihlášení, sloupec Poslední přihlášení, dvoufázové ověření (TOTP) |
 | Bezpečnost | vypnuté XML-RPC a editor souborů, skrytá verze a uživatelská jména, bezpečnostní hlavičky |
 | Sitemap | vestavěná `wp-sitemap.xml` bez uživatelů, přesměrování ze `sitemap_index.xml` |
 | Aktualizace | automatické aktualizace WordPressu a pluginů, vlastní plugin a šablona z GitHub Releases |
 | Kontaktní formulář | shortcode `[ekc_contact_form]` (převezme i `[forminator_form]`), antispam bez reCAPTCHA, e-mail správci, Zprávy z webu v administraci |
+| Obrázky | nahrané JPG/PNG jako WebP, hromadný převod starších v Údržbě |
+| Statistiky | počítadlo zobrazení stránek bez cookies (Zdraví webu, sloupec v přehledu) |
+| Komentáře | vypnuté |
 | Administrace | PHP, DB, IP a paměť v patičce, widget Zdraví webu |
 
 **Údržba webu** (Nástroje → Údržba webu): tabulky a autoload, úklid revizí a transientů, největší a nepoužité soubory, rozbité interní odkazy, pozůstatky odebraných pluginů do karantény.
