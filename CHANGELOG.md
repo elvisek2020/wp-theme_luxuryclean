@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.4.0 — 2026-11-02
+
+### Luxury Clean Core
+- **Ochrana přihlášení** (aktualizace podle skillu): nastavitelné okno pro počítání chybných pokusů (výchozí 15 minut jako dosud), volitelné blokování celé sítě (/24, /64) proti útokům ze střídajících se adres a **whitelist** IP adres, které se nikdy nezablokují. Vše v Nastavení → Luxury Clean Core → Přihlášení.
+- **Log přihlášení**: nastavitelná délka logu a stáří záznamů (výchozí 200 událostí a 90 dní jako dosud).
+- **Stránka nastavení** přehlednější: volby seskupené pod podnadpisy, podvolby odsazené a ztlumené, když je hlavní přepínač vypnutý.
+- Drobné úpravy modulů common, health, hardening, security-headers a sitemap (příprava na volitelné dvoufázové ověření, beze změny chování).
+
+### Šablona
+- Beze změny, jen číslo verze.
+
 ## v0.3.0 — 2026-11-02
 
 ### Šablona
